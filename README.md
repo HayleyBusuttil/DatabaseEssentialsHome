@@ -23,3 +23,6 @@ A gitignore fiel was created to exclude files and folders thaty should not be co
 - The Python virtual enviorement (.venv)
 - Enviorment variable file (.env)
 - Any python cache files. 
+
+# Task 2 - Schema Design
+MongoDB schema was designed using multiple collections. Seperate collections were created for events, attendees, venues, bookings and multimedia assets. Each collection represents sepcific concepts in teh system.
