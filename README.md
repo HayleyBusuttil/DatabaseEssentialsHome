@@ -25,4 +25,6 @@ A gitignore fiel was created to exclude files and folders thaty should not be co
 - Any python cache files. 
 
 # Task 2 - Schema Design
-MongoDB schema was designed using multiple collections. Seperate collections were created for events, attendees, venues, bookings and multimedia assets. Each collection represents sepcific concepts in teh system.
+MongoDB schema was designed using multiple collections. Seperate collections were created for events, attendees, venues, bookings and multimedia assets. Each collection represents sepcific concepts in the system.
+Relationships between entities were implemneted useing ObjectId references. 
+The Schema was deployed on MongoDB Atlas and populated with mock data using Datagriip. 
