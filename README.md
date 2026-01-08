@@ -18,7 +18,7 @@ All the installed python dependencies are listed in the requirments.txt file.
 - Python-dotenv
 - Requests
 
-# gitignore
+# .gitignore
 A gitignore fiel was created to exclude files and folders thaty should not be commited to teh repository:
 - The Python virtual enviorement (.venv)
 - Enviorment variable file (.env)
@@ -41,8 +41,18 @@ This is a package that is required to handle the file uploads of the mulitmedia 
 Freezed the depencies into the requirements.txt file using pip freeze > requirements.txt
 
 # Local Development and Testing
-The FastAPI was used to develop and run APIs locally using Uvicorn. The application runs on http://127.0.0.1:8000 , Swagger documentation is provided at: http://127.0.0.1:8000/docs.
+The FastAPI was used to develop and run APIs locally using Uvicorn. The application runs on http://127.0.0.1:8000 , 
+Swagger documentation is provided at: http://127.0.0.1:8000/docs.
 To run the API locally, the following command was used:
 unvicorn mian:app --reload
 
 Postman was used to test the endpoints as outlined in Appendix E. This included testing for and creating events, attendees, venues, and bookings. Also uploading and retrieving event posters, promotional videos and venue photos. 
+
+# Deploying 
+- Created vercel.json file in the project root to configure the Vercel deployment.
+- Pushed the project to github.
+- Created a new project on Vercel, imported the Github repo and deployed the project through the Vercel dashboard.
+- After depolymentment attached Eviorment Varibale (Mongo URI) in the project settigns of Vercel.
+- Redepolyed the project from dashboard.
+
+
