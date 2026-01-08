@@ -55,4 +55,13 @@ Postman was used to test the endpoints as outlined in Appendix E. This included 
 - After depolymentment attached Eviorment Varibale (Mongo URI) in the project settigns of Vercel.
 - Redepolyed the project from dashboard.
 
+# Task 4 - Configure Database Security
 
+# Setting Appropriate Credentials:
+A secure satabase user was created in MongoDB Atlas specifically for the Event Management API. The user uses password-based authentication (SCRAM) with a strong, auto-generated password.
+The database user was configured using the principle of least privilege. Instead of assigning broad administrative roles, the user was granted readWrite access limited to the event_management database only.
+
+# IP whitelisting
+MongoDB Atlas Network Access was configured to restrict which IP addresses are allowed to connect to the database.
+
+Due to the application being deployed on Vercel, which uses dynamic serverless outbound IP addresses, it is not possible to reliably whitelist a single fixed IP address. To allow the deployed API to connect successfully, the IP range 0.0.0.0/0 was added to the whitelist.
