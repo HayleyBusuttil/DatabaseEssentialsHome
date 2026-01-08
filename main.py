@@ -104,6 +104,33 @@ async def get_event(event_id: str):
         raise HTTPException(status_code=404, detail="Event not found")
     return stringify_id(doc)
 
+# Put/events/{event_id}; update an existing event by id
+# updates the event with the specified id using the provided details
+@app.put("/events/{event_id}")
+async def update_event(event_id: str, event: Event):
+    update_doc = event.dict()
+    update_doc["updated_at"] = datetime.utcnow()
+
+    result = await db.events.update_one(
+        {"_id": to_object_id(event_id)},
+        {"$set": update_doc}
+    )
+
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    return {"message": "Event updated"}
+
+# Delete/events/{event_id}; delete an event by id
+# deletes the event with the specified id from the database
+@app.delete("/events/{event_id}")
+async def delete_event(event_id: str):
+    result = await db.events.delete_one({"_id": to_object_id(event_id)})
+
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    return {"message": "Event deleted"}
 
 # -- Attendees
 # Post/attendees; create a new attendee
@@ -133,6 +160,34 @@ async def get_attendee(attendee_id: str):
     if not doc:
         raise HTTPException(status_code=404, detail="Attendee not found")
     return stringify_id(doc)
+
+# Put/attendees/{attendee_id}; update an existing attendee by id
+# updates the attendee with the specified id using the provided details
+@app.put("/attendees/{attendee_id}")
+async def update_attendee(attendee_id: str, attendee: Attendee):
+    update_doc = attendee.dict()
+    update_doc["updated_at"] = datetime.utcnow()
+
+    result = await db.attendees.update_one(
+        {"_id": to_object_id(attendee_id)},
+        {"$set": update_doc}
+    )
+
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Attendee not found")
+
+    return {"message": "Attendee updated"}
+
+# Delete/attendees/{attendee_id}; delete an attendee by id
+# deletes the attendee with the specified id from the database
+@app.delete("/attendees/{attendee_id}")
+async def delete_attendee(attendee_id: str):
+    result = await db.attendees.delete_one({"_id": to_object_id(attendee_id)})
+
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Attendee not found")
+
+    return {"message": "Attendee deleted"}
 
 
 # -- Venues
@@ -164,6 +219,33 @@ async def get_venue(venue_id: str):
         raise HTTPException(status_code=404, detail="Venue not found")
     return stringify_id(doc)
 
+# PUT /venues/{venue_id}; update an existing venue by id
+# updates the venue with the specified id using the provided details
+@app.put("/venues/{venue_id}")
+async def update_venue(venue_id: str, venue: Venue):
+    update_doc = venue.dict()
+    update_doc["updated_at"] = datetime.utcnow()
+
+    result = await db.venues.update_one(
+        {"_id": to_object_id(venue_id)},
+        {"$set": update_doc}
+    )
+
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Venue not found")
+
+    return {"message": "Venue updated"}
+
+# DELETE /venues/{venue_id}; delete a venue by id
+# deletes the venue with the specified id from the database
+@app.delete("/venues/{venue_id}")
+async def delete_venue(venue_id: str):
+    result = await db.venues.delete_one({"_id": to_object_id(venue_id)})
+
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Venue not found")
+
+    return {"message": "Venue deleted"}
 
 # -- Bookings
 # Post/bookings; create a new booking
@@ -194,6 +276,34 @@ async def get_booking(booking_id: str):
         raise HTTPException(status_code=404, detail="Booking not found")
     return stringify_id(doc)
 
+# PUT /bookings/{booking_id}; update an existing booking by id
+# updates the booking with the specified id using the provided details
+@app.put("/bookings/{booking_id}")
+async def update_booking(booking_id: str, booking: Booking):
+    update_doc = booking.dict()
+    update_doc["updated_at"] = datetime.utcnow()
+
+    result = await db.bookings.update_one(
+        {"_id": to_object_id(booking_id)},
+        {"$set": update_doc}
+    )
+
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Booking not found")
+
+    return {"message": "Booking updated"}
+
+
+# DELETE /bookings/{booking_id}; delete a booking by id
+# deletes the booking with the specified id from the database
+@app.delete("/bookings/{booking_id}")
+async def delete_booking(booking_id: str):
+    result = await db.bookings.delete_one({"_id": to_object_id(booking_id)})
+
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Booking not found")
+
+    return {"message": "Booking deleted"}
 
 # -- Media Upload + Retrieve
 # Post/upload_event_poster/{event_id}; upload an iamge file to be used as an event poster
