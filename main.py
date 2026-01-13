@@ -1,12 +1,13 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from typing import Optional, Literal
 from datetime import datetime
 from dotenv import load_dotenv
 import motor.motor_asyncio
 import io
 import os
+
 from bson import ObjectId
 
 # Load environment variables from .env file
@@ -40,30 +41,37 @@ def stringify_id(doc: dict) -> dict:
     doc["_id"] = str(doc["_id"])
     return doc
 
-
 # Data Models
+
+#pydantic models are used to vlaidate and santize usser input. They help prevent injectrion attacks as they 
+# enforce strict datatypes, reject unexpected or extra fields and apply lengtha nd value constrains 
 class Event(BaseModel):
-    name: str
-    description: str
-    date: str
-    venue_id: str
-    max_attendees: int
+    model_config = ConfigDict(extra="forbid")  # Forbid extra fields not defined in the model
+    name: str = Field(min_length=1, max_length=100)
+    description: str = Field(min_length=0, max_length=1000)
+    date: str = Field (min_length=4 , max_length=50) # YYYY-MM-DD 
+    venue_id: str = Field(min_length=24, max_length=24)  # MongoDB ObjectId length
+    max_attendees: int = Field(ge=1, le=100000)  # Greater than 0 and less than 100,000
 
 class Attendee(BaseModel):
-    name: str
-    email: str
-    phone: Optional[str] = None
+    model_config = ConfigDict(extra="forbid")  # Forbid extra fields not defined in the model
+    name: str = Field(min_length=2, max_length=120)
+    email: EmailStr
+    phone: Optional[str] = Field(default=None, max_length=30)
 
 class Venue(BaseModel):
-    name: str
-    address: str
-    capacity: int
+    model_config = ConfigDict(extra="forbid")  # Forbid extra fields not defined in the model
+    name: str = Field(min_length=2, max_length=120)
+    address: str = Field(min_length=5, max_length=300)
+    capacity: int = Field(ge=1, le=100000)
 
 class Booking(BaseModel):
-    event_id: str
-    attendee_id: str
+    model_config = ConfigDict(extra="forbid")  # Forbid extra fields not defined in the model
+    # Ids are validated by length before ObjectId conversion
+    event_id: str = Field(min_length=24, max_length=24)
+    attendee_id: str = Field(min_length=24, max_length=24)
     ticket_type: Literal["standard", "vip", "student"]
-    quantity: int
+    quantity: int = Field(ge=1, le=20)
 
 
 # Root 
