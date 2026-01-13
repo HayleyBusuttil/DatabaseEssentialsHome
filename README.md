@@ -67,5 +67,9 @@ Redeployment of the app had to be done on 13/01/2026 due to git issues
 IP whitelisting was configured using MongoDB Atlas Network Access.During development, database access was restricted to my own trusted public IP address. When deploying the API on Vercel, the hosted endpoints (such as /events) required access from dynamic serverless IP addresses.(0.0.0.0/0) was enabled to allow the deployed API to function correctly. 
 
 # SQL injection 
+- Pydantic
 pip install email-validator (this was installed and sued for email validation)
 Added Strict pydantic validation to prevent SQL injection attacks
+
+- ObjectId Validation
+all endpoints that require Ids now validate the incoming Id value before using them in queries, this prevents malformed or malicious inputs from being passed into database queries. 

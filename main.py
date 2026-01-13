@@ -29,10 +29,10 @@ db = client.event_management
 # If the conversion fails, an HTTP 400 error is raised
  
 def to_object_id(id_str: str) -> ObjectId:
-    try:
-        return ObjectId(id_str)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid ObjectId format")
+    # validates that a string is a valid MongoDB ObjectId, this prevents malicaious values from being used 
+    if not ObjectId.is_valid(id_str):
+        raise HTTPException(status_code=400, detail="Invalid ID format")
+    return ObjectId(id_str)
 
 # stringify_id converts the ObjectId in a document to a string for JSON responses
 # MongoDB returns _id as an ObjectId, which is not JSON serializable
